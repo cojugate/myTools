@@ -5,5 +5,5 @@
 #include <stddef.h>
 #include <string.h>
 
-uint8_t* sha3(FILE* fp);
+void sha3_512(FILE* fp, uint8_t digest[]);
 #endif
