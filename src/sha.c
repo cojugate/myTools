@@ -1,14 +1,39 @@
-#include <stdio.h>
-#include <stdint.h>
-#include <stdlib.h>
 #include "sha.h"
 
-uint64_t lend(uint8_t* ptr){
-    uint64_t res = 0;
-    res =(uint64_t)ptr[0]|((uint64_t)ptr[1]<<8)|((uint64_t)ptr[2]<<16)|((uint64_t)ptr[3]<<24)|((uint64_t)ptr[4]<<32)|((uint64_t)ptr[5]<<40)|((uint64_t)ptr[6]<<48)|((uint64_t)ptr[7]<<56);
-    return res;
+void printb8(uint8_t x){
+    for (int i = 7; i >= 0; i--) {putchar((x >> i) & 1 ? '1' : '0');}
 }
 
-uint8_t* sha(FILE* fp){
-    
+void printb64(uint64_t x){
+    for (int i = 63; i >= 0; i--) {putchar((x >> i) & 1 ? '1' : '0');}
+}
+
+int buildInput(FILE* fp, uint64_t inputs[]){
+    memset(inputs, 0, 9*sizeof(uint64_t));
+
+    uint8_t tmp[72] = {0};
+    size_t count = fread(tmp, sizeof(uint8_t), 72, fp);
+
+    int isContine = (count==72);
+    if(isContine){
+        for(int i=0; i<=8; i++){
+            for(int k=0; k<=7; k++){
+                inputs[i] |= ((uint64_t)(tmp[8*i+k])<<8*(k));
+            }
+        }
+    }else{
+        tmp[count] |= (uint8_t)0x06;
+        tmp[71] |= (uint8_t)0x80;
+        for(int i=0; i<=8; i++){
+            for(int k=0; k<=7; k++){
+                inputs[i] |= ((uint64_t)(tmp[8*i+k])<<8*(k));
+            }
+        }
+    }
+    return isContine;
+}
+
+uint8_t* sha3(FILE* fp){
+    uint64_t kac[25] = {0};
+
 }

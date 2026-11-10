@@ -1,4 +1,7 @@
-./build
+*.d
+*.o
 *.exe
-Makefile
+./build
 main.*
+compile_flags.txt
+Makefile

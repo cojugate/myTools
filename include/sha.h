@@ -1,6 +1,9 @@
 #ifndef SHA
 #define SHA
+#include <stdio.h>
+#include <stdint.h>
+#include <stddef.h>
+#include <string.h>
 
-int sha(int a);
-
+uint8_t* sha3(FILE* fp);
 #endif
